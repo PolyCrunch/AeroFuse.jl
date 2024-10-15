@@ -335,3 +335,6 @@ docs/site/
 Manifest.toml
 
 _research/
+
+# VS Code settings
+.vscode
