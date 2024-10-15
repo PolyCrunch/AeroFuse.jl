@@ -51,15 +51,15 @@ struct HyperEllipseFuselage{T <: Real, N <: AbstractAffineMap} <: AbstractFusela
     d_nose :: T
     d_rear :: T
     affine :: N
-    function HyperEllipseFuselage(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine)
+    weee :: T
+    function HyperEllipseFuselage(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine, weee)
         # Type promotion for autodiff support
-        println("Lolool test")
-        T = promote_type(eltype(R), eltype(L), eltype(xa), eltype(xb),  eltype(xi_a), eltype(xi_b), eltype(affine.linear), eltype(affine.translation), eltype(d_nose), eltype(d_rear))
+        T = promote_type(eltype(R), eltype(L), eltype(xa), eltype(xb),  eltype(xi_a), eltype(xi_b), eltype(affine.linear), eltype(affine.translation), eltype(d_nose), eltype(d_rear), eltype(weee))
         N = typeof(affine)
 
         @assert 0 < xa < xb < 1 "Ellipse blending points (x_a, x_b) must lie between 0 and 1!"
 
-        new{T,N}(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine)
+        new{T,N}(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine, weee)
     end
 end
 
