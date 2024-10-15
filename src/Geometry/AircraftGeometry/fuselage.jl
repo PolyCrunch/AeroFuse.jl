@@ -53,6 +53,7 @@ struct HyperEllipseFuselage{T <: Real, N <: AbstractAffineMap} <: AbstractFusela
     affine :: N
     function HyperEllipseFuselage(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine)
         # Type promotion for autodiff support
+        println("Lolool test")
         T = promote_type(eltype(R), eltype(L), eltype(xa), eltype(xb),  eltype(xi_a), eltype(xi_b), eltype(affine.linear), eltype(affine.translation), eltype(d_nose), eltype(d_rear))
         N = typeof(affine)
 
