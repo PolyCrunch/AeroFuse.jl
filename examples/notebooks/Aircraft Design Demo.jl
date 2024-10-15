@@ -81,11 +81,12 @@ fuse = HyperEllipseFuselage(
     length = 63.5,          # Length, m
     x_a    = 0.15,          # Start of cabin, ratio of length
     x_b    = 0.7,           # End of cabin, ratio of length
-    c_nose = 1.6,            # Curvature of nose
+    c_nose = 1.6,           # Curvature of nose
     c_rear = 1.3,           # Curvature of rear
     d_nose = -0.5,          # "Droop" or "rise" of nose, m
     d_rear = 1.0,           # "Droop" or "rise" of rear, m
-    position = [0.,0.,0.]   # Set nose at origin, m
+    position = [0.,0.,0.],  # Set nose at origin, m
+	weee = 0.7
 )
 
 # ╔═╡ 26d5c124-3da7-4a5a-b06e-38627b2dd8ac
