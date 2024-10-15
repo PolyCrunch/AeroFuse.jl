@@ -101,9 +101,10 @@ function HyperEllipseFuselage(;
         angle       = 0.,
         axis        = [0., 1., 0.],
         affine      = AffineMap(AngleAxis(deg2rad(angle), axis...), SVector(position...)),
+        weee        = 0.,
     )
    
-    return HyperEllipseFuselage(radius, length, x_a, x_b, c_nose, c_rear, d_nose, d_rear, affine)
+    return HyperEllipseFuselage(radius, length, x_a, x_b, c_nose, c_rear, d_nose, d_rear, affine, weee)
 end
 
 hyperellipse(ξ, a) = (1 - ξ^a)^(1/a) 
