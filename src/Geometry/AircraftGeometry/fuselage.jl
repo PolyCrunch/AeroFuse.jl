@@ -51,15 +51,14 @@ struct HyperEllipseFuselage{T <: Real, N <: AbstractAffineMap} <: AbstractFusela
     d_nose :: T
     d_rear :: T
     affine :: N
-    weee :: T
-    function HyperEllipseFuselage(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine, weee)
+    function HyperEllipseFuselage(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine)
         # Type promotion for autodiff support
-        T = promote_type(eltype(R), eltype(L), eltype(xa), eltype(xb),  eltype(xi_a), eltype(xi_b), eltype(affine.linear), eltype(affine.translation), eltype(d_nose), eltype(d_rear), eltype(weee))
+        T = promote_type(eltype(R), eltype(L), eltype(xa), eltype(xb),  eltype(xi_a), eltype(xi_b), eltype(affine.linear), eltype(affine.translation), eltype(d_nose), eltype(d_rear))
         N = typeof(affine)
 
         @assert 0 < xa < xb < 1 "Ellipse blending points (x_a, x_b) must lie between 0 and 1!"
 
-        new{T,N}(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine, weee)
+        new{T,N}(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine)
     end
 end
 
@@ -101,10 +100,9 @@ function HyperEllipseFuselage(;
         angle       = 0.,
         axis        = [0., 1., 0.],
         affine      = AffineMap(AngleAxis(deg2rad(angle), axis...), SVector(position...)),
-        weee        = 0.,
     )
    
-    return HyperEllipseFuselage(radius, length, x_a, x_b, c_nose, c_rear, d_nose, d_rear, affine, weee)
+    return HyperEllipseFuselage(radius, length, x_a, x_b, c_nose, c_rear, d_nose, d_rear, affine)
 end
 
 hyperellipse(ξ, a) = (1 - ξ^a)^(1/a) 
