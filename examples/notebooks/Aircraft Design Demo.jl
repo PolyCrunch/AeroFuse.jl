@@ -26,7 +26,7 @@ using Pkg;
 #using https://github.com/PolyCrunch/AeroFuse.jl
 
 # ╔═╡ f95c7d8c-5196-4e6b-88a0-bf9f0db626cb
-Pkg.develop(url="https://github.com/PolyCrunch/AeroFuse.jl")
+Pkg.develop(url="https://github.com/PolyCrunch/AeroFuseHydrogen.jl")
 
 # ╔═╡ a3fcad3d-5d8f-4290-88d5-30764c2c689e
 using AeroFuse
@@ -85,8 +85,7 @@ fuse = HyperEllipseFuselage(
     c_rear = 1.3,           # Curvature of rear
     d_nose = -0.5,          # "Droop" or "rise" of nose, m
     d_rear = 1.0,           # "Droop" or "rise" of rear, m
-    position = [0.,0.,0.],  # Set nose at origin, m
-	weee = 0.7
+    position = [0.,0.,0.]   # Set nose at origin, m
 )
 
 # ╔═╡ 26d5c124-3da7-4a5a-b06e-38627b2dd8ac
