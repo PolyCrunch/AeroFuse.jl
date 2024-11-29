@@ -15,7 +15,6 @@ end
 projected_area(fuse :: Fuselage) = forward_sum(fuse.radii) / 2 .* fuse.weights
 Base.length(fuse :: Fuselage) = fuse.length
 Base.radius(fuse :: Fuselage) = max(fuse.radii)
-Base.radius(fuse :: HyperEllipseFuselage) = fuse.radius
 
 truncated_cone_curved_area(r, R, H) = (R + r) * √(H^2 + (R - r)^2) * π
 
@@ -27,19 +26,19 @@ truncated_cone_volume(r, R, H) = H * π/3 * (R^2 + R * r + r^2)
 
 @views function coordinates(fuse :: Fuselage, n)
     ws_rads = cosine_interpolation(fuse, n)
-
+    
     [ ws_rads[:,1] .* fuse.length ws_rads[:,2] ]
 end
 
 function cosine_interpolation(fuse :: Fuselage, n)
     xs = fuse.weights
     ys = fuse.radii
-
+    
     x_min, x_max = extrema(xs)
     x_circ = cosine_spacing((x_min + x_max) / 2, x_max - x_min, n)
-
+    
     y_u = linear_interpolation(xs, ys).(x_circ)
-
+    
     return [ x_circ y_u ]
 end
 
@@ -57,18 +56,18 @@ struct HyperEllipseFuselage{T <: Real, N <: AbstractAffineMap} <: AbstractFusela
         # Type promotion for autodiff support
         T = promote_type(eltype(R), eltype(L), eltype(xa), eltype(xb),  eltype(xi_a), eltype(xi_b), eltype(affine.linear), eltype(affine.translation), eltype(d_nose), eltype(d_rear))
         N = typeof(affine)
-
+        
         @assert 0 < xa < xb < 1 "Ellipse blending points (x_a, x_b) must lie between 0 and 1!"
-
+        
         new{T,N}(R, L, xa, xb, xi_a, xi_b, d_nose, d_rear, affine)
     end
 end
 
 """
-    HyperEllipseFuselage(; 
+HyperEllipseFuselage(; 
 
 Define a fuselage based on the following hyperelliptical-cylindrical parameterization.
-	
+
 Nose: Hyperellipse ``z(ξ) = (1 - ξ^a)^{(1/a)}``
 
 Cabin: Cylindrical ``z(ξ) = 1``
@@ -90,24 +89,26 @@ Rear: Hyperellipse ``z(ξ) = (1 - ξ^b)^{(1/b)}``
 - `affine :: AffineMap = AffineMap(AngleAxis(deg2rad(angle), axis...), position)`: Affine mapping for the position and orientation via `CoordinateTransformations.jl` (overrides `angle` and `axis` if specified)
 """
 function HyperEllipseFuselage(;
-        radius      = 1., 
-        length      = 1., 
-        x_a         = 0.2, 
-        x_b         = 0.7,
-        c_nose      = 1.6,
-        c_rear      = 1.2,
-        d_nose      = 0.,
-        d_rear      = 0.,
-        position    = zeros(3),
-        angle       = 0.,
-        axis        = [0., 1., 0.],
-        affine      = AffineMap(AngleAxis(deg2rad(angle), axis...), SVector(position...)),
+    radius      = 1., 
+    length      = 1., 
+    x_a         = 0.2, 
+    x_b         = 0.7,
+    c_nose      = 1.6,
+    c_rear      = 1.2,
+    d_nose      = 0.,
+    d_rear      = 0.,
+    position    = zeros(3),
+    angle       = 0.,
+    axis        = [0., 1., 0.],
+    affine      = AffineMap(AngleAxis(deg2rad(angle), axis...), SVector(position...)),
     )
-   
+    
     return HyperEllipseFuselage(radius, length, x_a, x_b, c_nose, c_rear, d_nose, d_rear, affine)
 end
 
 hyperellipse(ξ, a) = (1 - ξ^a)^(1/a) 
+
+Base.radius(fuse :: HyperEllipseFuselage) = fuse.radius
 
 # Generate circles in the y-z plane with optionally shifted z-coordinates of the centers
 function circle3D_yz(x, R, n, zs = zeros(n)) 
