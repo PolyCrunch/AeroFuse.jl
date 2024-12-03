@@ -163,7 +163,7 @@ function curve(fuse :: HyperEllipseFuselage, ts)
 end
 
 """
-    wetted_area(fuse :: HyperEllipseFuselage, t) 
+    coordinates(fuse :: HyperEllipseFuselage, t) 
 
 Get the coordinates of a `HyperEllipseFuselage` given the parameter distribution ``t``. Note that the distribution must have endpoints `0` and `1`.
 """
